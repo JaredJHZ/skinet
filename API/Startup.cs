@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Infraestructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +20,10 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // crea un servicio de tipo scoped con el repositorio de productos que es el que se encarga de hacer los movimientos a la bd
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddControllers();
+            // crea el contexto de la base de datos con el tipo de clase StoreContext, se configura el connection string.
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
         }
 
